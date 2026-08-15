@@ -1,0 +1,5 @@
+https://box2d.org/publications/?utm_source=chatgpt.com
+
+1. Ian Millington — Game Physics Engine Development ( базовая книга по физ. движку)
+2. Christer Ericson — Real-Time Collision Detection ( когда дойдем до обработки коллизий)
+3. Erin Catto — GDC materials (продвинутый учебник)
