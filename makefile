@@ -18,6 +18,9 @@ $(OBJ_PHYS_ENGINE_DIR)/%.o: $(SRC_PHYS_ENGINE_DIR)/%.cpp
 	@mkdir -p $(OBJ_PHYS_ENGINE_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
+.PHONY: clean run 
 clean:
 	rm -rf $(OBJ_PHYS_ENGINE_DIR) $(TARGET)
+
+run:
+	./$(TARGET)
