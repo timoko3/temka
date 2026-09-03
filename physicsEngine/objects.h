@@ -72,6 +72,12 @@ public:
     getWorld(){
         return world_;
     }
+
+    const MathVector<m_t, CUR_SIM_DIM>&
+    getCoord() const
+    {
+        return coord_;
+    }
 };
 
 class Particle : public Object

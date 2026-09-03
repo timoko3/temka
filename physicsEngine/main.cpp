@@ -19,6 +19,9 @@ int main(){
                                                      MathVector<m_s2_t, CUR_SIM_DIM>{0, 0},
                                                      1, 
                                                      &defaultWorld);
+
+    // std::cout << firstParticle->getCoord() << "\n";
+
     defaultWorld.getObjects().push_back(firstParticle);
 
     auto lastTime = std::chrono::high_resolution_clock::now();
