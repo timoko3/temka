@@ -1,5 +1,5 @@
 CXX = g++ 
-CXXFLAGS = -Wall -Wextra -std=c++17 
+CXXFLAGS = -Wall -Wextra -std=c++17 -I.
 TARGET = physics_engine.out 
 
 SRC_PHYS_ENGINE_DIR = physicsEngine

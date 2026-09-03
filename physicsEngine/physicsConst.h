@@ -10,5 +10,6 @@ typedef double s_t;
 const m_s2_t DEFAULT_GRAVITY_ACCEL = 9.81;
 
 const s_t    BASIC_SIMULATION_STEP = 0.01;
+const size_t CUR_SIM_DIM = 2; 
 
 #endif /* PHYSICS_CONST_H */
