@@ -3,4 +3,10 @@
 namespace physics_engine
 {
 
+void 
+Particle::update()
+{
+
+}
+
 }

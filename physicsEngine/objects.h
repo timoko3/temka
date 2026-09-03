@@ -8,6 +8,7 @@
 
 namespace physics_engine
 {
+
 class Field
 {
     double fieldStrength;
@@ -33,6 +34,13 @@ public:
           mass_(mass) {}
 
     virtual ~Object() = default;
+    
+    virtual void update(s_t dt) {
+        velocityX_ += accelX_ * dt;
+        velocityY_ += accelY_ * dt;
+        x_ += velocityX_ * dt;
+        y_ += velocityY_ * dt;
+    }
 };
 
 class Particle : public Object
@@ -53,7 +61,7 @@ class World
 {
     std::vector<std::shared_ptr<Field>>  fields;
     std::vector<std::shared_ptr<Object>> objects;
-    double              time_;
+    s_t                                  time_;
 
 public:
     std::vector<std::shared_ptr<Field>>&
@@ -65,6 +73,16 @@ public:
     getObjects(){
         return objects;
     };
+
+    s_t 
+    getTime(){
+        return time_;
+    };
+
+    void 
+    increaseTime( double timeShift){
+        time_ += timeShift;
+    }
 };
 
 }
