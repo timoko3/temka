@@ -5,9 +5,9 @@ namespace graphics_engine
 
 Renderer::Renderer(int width, int height, float pixelsPerMeter)
     : screenWidth_(width), screenHeight_(height),
-      pixelsPerMeter_(pixelsPerMeter), particleRadius_(6.0f)
+      pixelsPerMeter_(pixelsPerMeter)
 {
-    InitWindow(screenWidth_, screenHeight_, "physics engine debug view");
+    InitWindow(screenWidth_, screenHeight_, "WORLD");
     SetTargetFPS(60);
 }
 
@@ -50,7 +50,7 @@ Renderer::drawWorld(physics_engine::World& world)
     for (const auto& obj : world.getObjects())
     {
         Vector2 pos = toScreen(obj->getCoord());
-        DrawCircleV(pos, particleRadius_, RED);
+        DrawCircleV(pos, PARTICLE_RADIUS, RED);
     }
 }
 
