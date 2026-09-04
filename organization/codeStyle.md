@@ -9,11 +9,11 @@
 
 | Сущность | Стиль | Пример |
 |---|---|---|
-| Типы: `class`, `struct`, `enum`, `using`, шаблонные параметры | **CamelCase** | `Registry`, `Pool`, `PoolState` |
-| Методы и функции | snake_case | `try_get`, `entity_index`, `make_entity` |
+| Типы: `class`, `struct`, `enum`, `using`, шаблонные параметры | **upper CamelCase** | `Registry`, `Pool`, `PoolState` |
+| Методы и функции | **lower CamelCase** | `tryGet` |
 | Поля внутри классов | camelCase + **`_` в конце** | `sparse_`, `aliveCount_`, `world_` |
 | Локальные переменные и параметры | snake_case | `first_particle`, `sum_x` |
-| Константы (`constexpr`, `const` в классах) | camelCase, начинается с `k` | `kNoPos`, `kDefaultGravity` |
+| Константы (`constexpr`, `const` в классах) | UPPER_SNAKE_CASE | `NO_POS`, `DEFAULT_GRAVITY` |
 | Макросы | UPPER_SNAKE_CASE | `ECS_H`, `CHECK` |
 | Пространства имён | короткий lowercase (??) | `ecs`, `tml` |
 | Файлы | snake или camel ( с заглавной буквы) case  | `ecs.h`, `SomeObjects.cpp` |
@@ -25,7 +25,6 @@
 
 ### 2.1 Базовые правила
 
-- Отступ — **4 пробела**, табы запрещены. ( хз, как будто похуй)
 - Кодировка UTF-8, переводы строк LF.
 
 ### 2.2 Фигурные скобки — стиль **Allman**
@@ -107,111 +106,5 @@ Pool( std::size_t capacity, PoolState state ) :
 ```
 
 - Порядок включений: свой заголовок → заголовки проекта (`"..."`) → стандартные (`<...>`); внутри групп — алфавит.
-- `using namespace` в заголовках **запрещён** (утекает в чужие единицы трансляции). В `.cpp` — допустим.
 - Заголовок должен включать всё, что использует сам; не полагаться на порядок включений.
 
-## 4. Классы и структуры
-
-- `struct` — для агрегатных данных без инвариантов (компоненты ECS, desc-структуры, POD).
-- `class` — при наличии инвариантов; все поля — `private` с `_` на конце.
-- Порядок секций: `public` (интерфейс) → `protected` → `private` (данные внизу).
-- Виртуальные переопределения — всегда с `override`; класс-лист без наследников — `final`.
-- Конструктор с одним аргументом — `explicit` (кроме случаев копирования/инициализации).
-- По умолчанию члены инициализируются при объявлении: `std::size_t aliveCount_ = 0;`.
-
-## 5. Языковые правила
-
-- `const`/`constexpr` везде, где уместно; методы-наблюдатели — `const`.
-- Фиксированная ширина целых в API: `std::uint32_t`, `std::size_t` — не «голый» `int` в интерфейсах.
-- `assert`/`TM_ASSERT` — для внутренних инвариантов; договорённости контрактов (UB) — документировать в заголовке.
-- Никаких магических чисел — именованные константы.
-- Без исключений из внутренних модулей движка (ошибка — assert/код возврата); `std::function` и аллокации не размещать в hot-path без необходимости.
-- Закомментированный код и debug-`printf` в коммитах не оставляем ( в мерждах точно, в своих ветках - как хотим).
-
-## 6. Совместимость со старым кодом
-
-- `physicsEngine/` написан до стайла (Allman уже есть, но `using namespace` в заголовке и др.). **Не рефакторим впрок**: при правке файла переформатируем его целиком под стайл.
-- Новый код — только по стайлу; ревью проверяет стайл по этому документу.
-
-## 7. Эталонный пример
-
-```cpp
-#ifndef BODY_POOL_H
-#define BODY_POOL_H
-
-#include <cstdint>
-#include <vector>
-
-#include "handle.h"
-
-namespace tml
-{
-
-enum class BodyKind
-{
-    Static,
-    Dynamic,
-};
-
-struct BodyDesc2D
-{
-    Vec2 position = { 0.0f, 0.0f };
-    float mass = 1.0f;
-    BodyKind kind = BodyKind::Dynamic;
-};
-
-class BodyPool final
-{
-public:
-    explicit BodyPool( std::size_t capacity ) :
-        capacity_( capacity )
-    {
-        slots_.reserve( capacity );
-    }
-
-    Handle< BodyTag> create( const BodyDesc2D & desc )
-    {
-        if ( freeList_.empty() )
-        {
-            return pushSlot( desc );
-        }
-        const auto index = freeList_.back();
-        freeList_.pop_back();
-        slots_[ index].desc = desc;
-        return makeHandle( index, slots_[ index].generation );
-    }
-
-    const BodyDesc2D * tryGet( Handle< BodyTag> handle ) const
-    {
-        if ( handle.generation != generationOf( handle ) )
-            return nullptr;
-        return &slots_[ handle.index].desc;
-    }
-
-private:
-    struct Slot
-    {
-        BodyDesc2D desc;
-        std::uint32_t generation = 0;
-        bool alive = false;
-    };
-
-    Handle< BodyTag> pushSlot( const BodyDesc2D & desc );
-    std::uint32_t generationOf( Handle< BodyTag> handle ) const;
-
-    std::vector< Slot> slots_;
-    std::vector< std::uint32_t> freeList_;
-    std::size_t capacity_ = 0;
-};
-
-} // namespace tml
-
-#endif // BODY_POOL_H
-```
-
----
-
-## 8. Автоматизация (план)
-
-- `.clang-format` в корне: `BasedOnStyle: LLVM`, `BreakBeforeBraces: Allman`, пробелы внутри скобок (`SpacesInParens`), отступ 4, колонка 100.
-- Ревью не тратит время на форматирование — только на смысл; всё механическое должен проверять форматтер.
