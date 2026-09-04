@@ -9,6 +9,9 @@
 
 #include "generalFunctions/mathVector.h"
 
+#include "core/measurmentSystem.h"
+#include "core/config.h"
+
 using namespace generalFunctions;
 
 namespace physics_engine

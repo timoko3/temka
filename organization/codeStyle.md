@@ -10,12 +10,13 @@
 | Сущность | Стиль | Пример |
 |---|---|---|
 | Типы: `class`, `struct`, `enum`, `using`, шаблонные параметры | **upper CamelCase** | `Registry`, `Pool`, `PoolState` |
-| Методы и функции | lower camelCase | `tryGet`, `entityIndex`, `makeEntity` |
+| Методы и функции | **lower CamelCase** | `tryGet` |
 | Поля внутри классов | camelCase + **`_` в конце** | `sparse_`, `aliveCount_`, `world_` |
 | Локальные переменные и параметры | snake_case | `first_particle`, `sum_x` |
-| Константы (`constexpr`, `const` в классах) и макросы | UPPER_SNAKE_CASE | `NO_POS`, `DEFAULT_GRAVITY` |
-| Пространства имён | короткий **upper CamelCase** | `ECS`, `TML` |
-| Файлы | snake_case  | `ecs.h`, `some_objects.cpp` |
+| Константы (`constexpr`, `const` в классах) | UPPER_SNAKE_CASE | `NO_POS`, `DEFAULT_GRAVITY` |
+| Макросы | UPPER_SNAKE_CASE | `ECS_H`, `CHECK` |
+| Пространства имён | короткий lowercase (??) | `ecs`, `tml` |
+| Файлы | snake или camel ( с заглавной буквы) case  | `ecs.h`, `SomeObjects.cpp` |
 
 - Аббревиатуры в именах склоняются как слова: `XmlDoc`, а не `XMLDoc` (но `ECS` в тексте — ок).
 - Имя должно говорить «что», а не «как»: `aliveCount_`, а не `counterOfNonDeleted_`.
@@ -24,7 +25,6 @@
 
 ### 2.1 Базовые правила
 
-- Отступ — **4 пробела**.
 - Кодировка UTF-8, переводы строк LF.
 
 ### 2.2 Фигурные скобки — стиль **Allman**
@@ -108,96 +108,3 @@ Pool( std::size_t capacity, PoolState state ) :
 - Порядок включений: свой заголовок → заголовки проекта (`"..."`) → стандартные (`<...>`); внутри групп — алфавит.
 - Заголовок должен включать всё, что использует сам; не полагаться на порядок включений.
 
-## 4. Классы и структуры
-
-- `struct` — для общедоступных данных (компоненты ECS, desc-структуры, POD).
-- `class` — при объектов; стараемся сделать все поля — `private`.
-- Порядок секций: `public` (интерфейс) → `protected` → `private` (данные внизу).
-- Виртуальные переопределения — всегда с `override`; класс-лист без наследников — `final`.
-- По умолчанию члены инициализируются при объявлении: `std::size_t aliveCount_ = 0;`.
-
-## 5. Языковые правила
-
-- `const`/`constexpr` везде, где уместно; методы-наблюдатели — `const`.
-- Фиксированная ширина целых в API: `std::uint32_t`, `size_t` — не «голый» `int` в интерфейсах.
-- `assert`/`TM_ASSERT` — для внутренних инвариантов; договорённости контрактов (UB) — документировать в заголовке.
-- Никаких магических чисел — именованные константы.
-- Без исключений из внутренних модулей движка (ошибка — assert/код возврата);
-- Закомментированный код и debug-`printf` в коммитах не оставляем ( в мерждах точно, в своих ветках - как хотим).
-
-## 6. Эталонный пример
-
-```cpp
-#ifndef BODY_POOL_H
-#define BODY_POOL_H
-
-#include <cstdint>
-#include <vector>
-
-#include "handle.h"
-
-namespace TML
-{
-
-enum class BodyKind
-{
-    Static,
-    Dynamic,
-};
-
-struct BodyDesc2D
-{
-    Vec2 position = { 0.0f, 0.0f };
-    float mass = 1.0f;
-    BodyKind kind = BodyKind::Dynamic;
-};
-
-class BodyPool final
-{
-public:
-    BodyPool( std::size_t capacity ) :
-        capacity_( capacity )
-    {
-        slots_.reserve( capacity );
-    }
-
-    Handle< BodyTag > create( const BodyDesc2D & desc )
-    {
-        if ( freeList_.empty() )
-        {
-            return pushSlot( desc );
-        }
-        const auto index = freeList_.back();
-        freeList_.pop_back();
-        slots_[ index ].desc = desc;
-        return makeHandle( index, slots_[ index ].generation_ );
-    }
-
-    const BodyDesc2D * tryGet( Handle< BodyTag > handle ) const
-    {
-        if ( handle.generation_ != generationOf( handle ) )
-            return nullptr;
-        return &slots_[ handle.index ].desc;
-    }
-
-private:
-    struct Slot
-    {
-        BodyDesc2D desc_;
-        std::uint32_t generation_ = 0;
-        bool alive_ = false;
-    };
-
-    Handle< BodyTag> pushSlot( const BodyDesc2D & desc );
-    std::uint32_t generationOf( Handle< BodyTag > handle ) const;
-
-    std::vector< Slot > slots_;
-    std::vector< std::uint32_t > freeList_;
-    std::size_t capacity_ = 0;
-};
-
-} // namespace tml
-
-#endif // BODY_POOL_H
-```
----
