@@ -63,21 +63,21 @@ if ( e == InvalidEntity )
 
 ### 2.3 Пробелы внутри скобок
 
-После **каждой** открывающей скобки (круглой `(` и фигурной `{`) ставится пробел; симметрично — перед закрывающей( опционально):
+После **каждой** открывающей скобки (круглой `(` и фигурной `{`) ставится пробел; симметрично — перед закрывающей:
 
 ```cpp
 someFunc( arg1, arg2 );
-if ( cond)
+if ( cond )
 struct BodyDesc2D { Vec2 position; float mass; };
 enum class PoolState { Empty, Full };
-auto p = std::make_unique< Pool< C>>( 16);
+auto p = std::make_unique< Pool< C >>( 16);
 ```
 
 - Пустые скобки пишутся **без** пробелов: `size()`, `{}`.
 - После ключевого слова управляющей конструкции — пробел: `if (`, `for (`, `while (`, `switch (`.
 - Пробелы вокруг бинарных операторов: `a + b`, `x == y`; после запятой — есть, перед — нет; после `;` в `for ( ;; )` — есть.
-- `template <typename C>` — с пробелом после `template`.
-- Указатель/ссылка отделены пробелами: `const Entity * e`, `Pool< C> & pool`, `std::unique_ptr< IPoolBase> ptr`.
+- `template <typename C >` —  `template` разделен пробелами.
+- Указатель/ссылка отделены пробелами: `const Entity * e`, `Pool< C > & pool`, `std::unique_ptr< IPoolBase > ptr`.
 
 ### 2.4 Прочее
 
@@ -96,7 +96,7 @@ Pool( std::size_t capacity, PoolState state ) :
 
 ## 3. Заголовочные файлы и include
 
-- Гварды повторения — классические, `ИМЯ_ФАЙЛА_H` (не `#pragma once`) ( по мне похуй):
+- Гварды повторения — классические, `ИМЯ_ФАЙЛА_H` (не `#pragma once`):
 
 ```cpp
 #ifndef ECS_H
