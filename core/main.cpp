@@ -1,11 +1,14 @@
 #include <math.h>
-#include <chrono>
 #include <iostream>
 
-#include "objects.h"
-#include "integrator.h"
-#include "physicsConst.h"
 #include "graphicsEngine/render.hh"
+
+#include "physicsEngine/objects.h"
+#include "physicsEngine/physicsConst.h"
+
+#include "measurmentSystem.h"
+#include "simulation.h"
+#include "config.h"
 
 using namespace physics_engine;
 using namespace graphics_engine;
@@ -28,34 +31,13 @@ int main(){
                                                        3, 
                                                        &defaultWorld);
 
-    defaultWorld.getObjects().push_back(firstParticle);
-    defaultWorld.getObjects().push_back(secondParticle);
+    defaultWorld.getObjects().push_back( firstParticle);
+    defaultWorld.getObjects().push_back( secondParticle);
 
-    Renderer renderer(WINDOW_WIDTH, WINDOW_HEIGHT, 50.0f);
+    // Renderer renderer( WINDOW_WIDTH, WINDOW_HEIGHT, 50.0f);
 
-    auto lastTime = std::chrono::high_resolution_clock::now();
-
-    while( !renderer.windowShouldClose() && defaultWorld.getTime() < 10 ){
-        auto currentTime = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsedTime = currentTime - lastTime;
-        lastTime = currentTime;
-
-        while( elapsedTime.count() >= BASIC_SIMULATION_STEP )
-        {
-            defaultWorld.update( BASIC_SIMULATION_STEP);
-
-            for (const auto& obj : defaultWorld.getObjects()){
-                obj->update( BASIC_SIMULATION_STEP);
-            }
-
-            defaultWorld.increaseTime( BASIC_SIMULATION_STEP);
-            elapsedTime -= std::chrono::duration<double>(BASIC_SIMULATION_STEP);
-        }
-
-        renderer.beginFrame();
-        renderer.drawWorld(defaultWorld);
-        renderer.endFrame();
-    }
+    class simulation::Simulator simulation;
+    simulation.run( &defaultWorld, SIMULATION_TIME);
 
     return 0;
 }
