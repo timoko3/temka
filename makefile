@@ -1,6 +1,6 @@
-CXX = g++ 
+CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17 -I.
-TARGET = physics_engine.out 
+TARGET = physics_engine.out
 
 SRC_PHYS_ENGINE_DIR     = physicsEngine
 SRC_GRAPHICS_ENGINE_DIR = graphicsEngine
@@ -9,7 +9,9 @@ OBJ_DIR                 = obj
 
 SRCS_PHYS_ENGINE     = $(wildcard $(SRC_PHYS_ENGINE_DIR)/*.cpp)
 SRCS_GRAPHICS_ENGINE = $(wildcard $(SRC_GRAPHICS_ENGINE_DIR)/*.cpp)
-SRCS_CORE			 = $(wildcard $(SRC_CORE)/*.cpp)		
+SRCS_CORE			 = $(wildcard $(SRC_CORE)/*.cpp)
+SRCS_ECS_TEST        = entitySystem/test.cpp
+SRCS_CORE			 = $(wildcard $(SRC_CORE)/*.cpp)
 
 OBJS_PHYS_ENGINE     = $(patsubst $(SRC_PHYS_ENGINE_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS_PHYS_ENGINE))
 OBJS_GRAPHICS_ENGINE = $(patsubst $(SRC_GRAPHICS_ENGINE_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS_GRAPHICS_ENGINE))
@@ -33,7 +35,14 @@ $(OBJ_DIR)/%.o: $(SRC_CORE)/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean run 
+.PHONY: clean run ecs_test
+<<<<<<< HEAD
+=======
+
+>>>>>>> 155ea91 (added version with core not debugged)
+ecs_test: $(SRCS_ECS_TEST) entitySystem/ecs.h entitySystem/entity.h
+	$(CXX) $(CXXFLAGS) $(SRCS_ECS_TEST) -o ecs_test
+
 clean:
 	rm -rf $(OBJ_DIR) $(TARGET)
 
