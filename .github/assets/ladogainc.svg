@@ -1,0 +1,81 @@
+<svg width="1200" height="460" viewBox="0 0 1200 460" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title description">
+  <title id="title">LADOGAINc</title>
+  <desc id="description">A luminous LADOGAINc wordmark above a stylized northern lake horizon.</desc>
+
+  <defs>
+    <linearGradient id="background" x1="72" y1="24" x2="1128" y2="436" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071327"/>
+      <stop offset="0.48" stop-color="#0A1C35"/>
+      <stop offset="1" stop-color="#08111F"/>
+    </linearGradient>
+    <radialGradient id="auroraLeft" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(260 72) rotate(34) scale(480 210)">
+      <stop stop-color="#2DD4BF" stop-opacity="0.36"/>
+      <stop offset="1" stop-color="#2DD4BF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="auroraRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(976 34) rotate(142) scale(470 220)">
+      <stop stop-color="#60A5FA" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#60A5FA" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wordmark" x1="300" y1="144" x2="922" y2="282" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E6FFFB"/>
+      <stop offset="0.32" stop-color="#67E8F9"/>
+      <stop offset="0.66" stop-color="#93C5FD"/>
+      <stop offset="1" stop-color="#C4B5FD"/>
+    </linearGradient>
+    <linearGradient id="horizon" x1="174" y1="337" x2="1026" y2="337" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2DD4BF" stop-opacity="0"/>
+      <stop offset="0.18" stop-color="#2DD4BF" stop-opacity="0.82"/>
+      <stop offset="0.5" stop-color="#7DD3FC"/>
+      <stop offset="0.82" stop-color="#818CF8" stop-opacity="0.82"/>
+      <stop offset="1" stop-color="#818CF8" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="stars" width="92" height="76" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="19" r="1" fill="#E0F2FE" fill-opacity="0.36"/>
+      <circle cx="68" cy="52" r="0.7" fill="#FFFFFF" fill-opacity="0.22"/>
+    </pattern>
+    <filter id="softGlow" x="-25%" y="-50%" width="150%" height="200%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="lineGlow" x="-20%" y="-500%" width="140%" height="1000%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="cardClip">
+      <rect x="12" y="12" width="1176" height="436" rx="32"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#cardClip)">
+    <rect x="12" y="12" width="1176" height="436" rx="32" fill="url(#background)"/>
+    <rect x="12" y="12" width="1176" height="436" rx="32" fill="url(#auroraLeft)"/>
+    <rect x="12" y="12" width="1176" height="436" rx="32" fill="url(#auroraRight)"/>
+    <rect x="12" y="12" width="1176" height="292" fill="url(#stars)"/>
+
+    <path d="M-10 154C151 67 286 202 438 132C600 57 711 103 846 163C983 224 1108 124 1220 75V12H-10V154Z" fill="#2DD4BF" fill-opacity="0.055"/>
+    <path d="M-18 104C157 195 304 83 458 116C635 154 738 221 913 128C1023 70 1110 96 1216 134V12H-18V104Z" fill="#818CF8" fill-opacity="0.045"/>
+
+    <circle cx="94" cy="90" r="2" fill="#A5F3FC"/>
+    <circle cx="1080" cy="112" r="1.5" fill="#C4B5FD"/>
+    <circle cx="1000" cy="61" r="1" fill="#E0F2FE"/>
+    <circle cx="186" cy="134" r="1" fill="#FFFFFF" fill-opacity="0.75"/>
+
+    <g filter="url(#softGlow)">
+      <text x="600" y="270" text-anchor="middle" fill="url(#wordmark)" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="118" font-weight="750" letter-spacing="13">LADOGAINc</text>
+    </g>
+
+    <path d="M174 337C278 337 305 329 387 329C469 329 490 342 583 342C676 342 708 330 795 330C882 330 933 337 1026 337" stroke="url(#horizon)" stroke-width="2" stroke-linecap="round" filter="url(#lineGlow)"/>
+    <path d="M239 364C318 364 352 358 418 358C484 358 525 369 604 369C683 369 722 358 787 358C852 358 885 364 961 364" stroke="url(#horizon)" stroke-opacity="0.34" stroke-linecap="round"/>
+    <path d="M354 391C416 391 460 386 516 386C572 386 610 393 667 393C724 393 762 388 840 388" stroke="url(#horizon)" stroke-opacity="0.16" stroke-linecap="round"/>
+
+    <circle cx="600" cy="337" r="4" fill="#BAE6FD" filter="url(#lineGlow)"/>
+  </g>
+
+  <rect x="12.75" y="12.75" width="1174.5" height="434.5" rx="31.25" stroke="url(#horizon)" stroke-opacity="0.42" stroke-width="1.5"/>
+</svg>
