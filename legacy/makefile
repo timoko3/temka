@@ -36,10 +36,7 @@ $(OBJ_DIR)/%.o: $(SRC_CORE)/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean run ecs_test
-<<<<<<< HEAD
-=======
 
->>>>>>> 155ea91 (added version with core not debugged)
 ecs_test: $(SRCS_ECS_TEST) entitySystem/ecs.h entitySystem/entity.h
 	$(CXX) $(CXXFLAGS) $(SRCS_ECS_TEST) -o ecs_test
 

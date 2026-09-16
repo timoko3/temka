@@ -1,3 +1,11 @@
 /obj
 
 *.out
+
+# Каталоги сборки CMake (основной и санитайзерный)
+/build
+/build-*
+
+# Артефакты сборки legacy-проекта
+/legacy/obj
+/ecs_test

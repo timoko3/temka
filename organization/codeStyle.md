@@ -16,7 +16,7 @@
 | Константы (`constexpr`, `const` в классах) | UPPER_SNAKE_CASE | `NO_POS`, `DEFAULT_GRAVITY` |
 | Макросы | UPPER_SNAKE_CASE | `ECS_H`, `CHECK` |
 | Пространства имён | короткий lowercase (??) | `ecs`, `tml` |
-| Файлы | snake или camel ( с заглавной буквы) case  | `ecs.h`, `SomeObjects.cpp` |
+| Файлы | snake или camel ( с заглавной буквы) case  | `ecs.hh`, `SomeObjects.cc` |
 
 - Аббревиатуры в именах склоняются как слова: `XmlDoc`, а не `XMLDoc` (но `ECS` в тексте — ок).
 - Имя должно говорить «что», а не «как»: `aliveCount_`, а не `counterOfNonDeleted_`.
@@ -96,13 +96,14 @@ Pool( std::size_t capacity, PoolState state ) :
 
 ## 3. Заголовочные файлы и include
 
-- Гварды повторения — классические, `ИМЯ_ФАЙЛА_H` (не `#pragma once`):
+- В `engine/` исходники — `.cc`, заголовки — `.hh` (в `legacy/` остаются `.cpp`/`.h`).
+- Гварды повторения — классические, не `#pragma once`. Для `engine/` — по пути от корня `engine/`: `ENGINE_<МОДУЛЬ>_<ИМЯ>_HH`; комментарий в `#endif` повторяет гвард:
 
 ```cpp
-#ifndef ECS_H
-#define ECS_H
+#ifndef ENGINE_CORE_HANDLE_HH
+#define ENGINE_CORE_HANDLE_HH
 ...
-#endif // ECS_H
+#endif // ENGINE_CORE_HANDLE_HH
 ```
 
 - Порядок включений: свой заголовок → заголовки проекта (`"..."`) → стандартные (`<...>`); внутри групп — алфавит.
